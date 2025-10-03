@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Химия - Интерактивное приложение</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: #4A90E2;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card h3 {
+            color: #4A90E2;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        .
+reaction-example {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        .calculator {
+            display: grid;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .calculator input {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #1e3c72;
+            font-size: 16px;
+        }
+
+        .calculator button {
+            background: #4A90E2;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .calculator button:hover {
+            background: #357ABD;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .interactive-demo {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .demo-btn {
+            background: linear-gradient(45deg, #4A90E2, #357ABD);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .demo-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Химический помощник</h1>
+            <p>Изучайте химию интерактивно</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="openTab('reactions')">Реакции</button>
+            <button class="tab-btn" onclick="openTab('catalysts')">Катализаторы</button>
+            <button class="tab-btn" onclick="openTab('calculator')">Калькулятор</button>
+            <button class="tab-btn" onclick="openTab('demo')">Демо</button>
+        </div>
+
+        <!-- Вкладка Реакции -->
+        <div id="reactions" class="tab-content active">
+            <div class="card">
+                <h3>📚 Типы химических реакций</h3>
+                <div class="reaction-example">
+                    2H₂ + O₂ → 2H₂O<br>
+                    <small>Реакция соединения</small>
+                </div>
+                <div class="reaction-example">
+                    2H₂O → 2H₂ + O₂<br>
+                    <small>Реакция разложения</small>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>⚡ Окислительно-восстановительные реакции</h3>
+                <p>Реакции, в которых элементы изменяют свои степени окисления.</p>
+                <div class="reaction-example">
+                    Fe₂O₃ + 2Al → 2Fe + Al₂O₃<br>
+                    <small>Алюминий - восстановитель, Железо - окислитель</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Вкладка Катализаторы -->
+        <div id="catalysts" class="tab-content">
+            <div class="card">
+                <h3>🔬 Что такое катализатор?</h3>
+                <p>Катализатор - вещество, ускоряющее химическую реакцию, но не расходующееся в ней.</p>
+                
+                <div class="reaction-example">
+                    2H₂O₂ → 2H₂O + O₂<br>
+                    <small>Без катализатора: медленно</small>
+                </div>
+                
+                <div class="reaction-example">
+                    2H₂O₂ --(MnO₂)--> 2H₂O + O₂<br>
+                    <small>С катализатором: быстро</small>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Свойства катализаторов</h3>
+                <ul style="list-style-position: inside; margin-left: 20px;">
+                    <li>Не расходуется в реакции</li>
+                    <li>Снижает энергию активации</li>
+                    <li>Не влияет на положение равновесия</li>
+                    <li>Обладает селективностью</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Вкладка Калькулятор -->
+        <div id="calculator" class="tab-content">
+            <div class="card">
+                <h3>🧮 Расчет количества теплоты</h3>
+                <p>Рассчитайте теплоту для разложения карбоната кальция:</p>
+                
+                <div class="calculator">
+                    <input type="number" id="massInput" placeholder="Масса CaCO₃ (кг)" step="0.1">
+                    <button onclick="calculateHeat()">Рассчитать</button>
+                </div>
+                
+                <div id="heatResult" class="result"></div>
+            </div>
+        </div>
+
+        <!-- Вкладка Демо -->
+        <div id="demo" class="tab-content">
+            <div class="card">
+                <h3>🎮 Интерактивная демонстрация</h3>
+                <p>Нажмите кнопку, чтобы увидеть эффект катализатора:</p>
+                
+                <div class="interactive-demo">
+                    <button class="demo-btn" onclick="showCatalystEffect()">
+                        Показать эффект катализатора
+                    </button>
+                    <div id="demoResult" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Переключение вкладок
+        function openTab(tabName) {
+            // Скрыть все вкладки
+            const tabs = document.getElementsByClassName('tab-content');
+            for (let tab of tabs) {
+                tab.classList.remove('active');
+            }
+            
+            // Убрать активный класс со всех кнопок
+            const buttons = document.getElementsByClassName('tab-btn');
+            for (let button of buttons) {
+                button.classList.remove('active');
+            }
+            
+            // Показать выбранную вкладку
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Расчет теплоты
+        function calculateHeat() {
+            const mass = parseFloat(document.getElementById('massInput').value);
+            if (isNaN(mass) || mass <= 0) {
+                alert('Введите корректную массу!');
+                return;
+            }
+            
+            // Теплота разложения для 1 кг CaCO₃ (187 кДж)
+            const heatPerKg = 187;
+            const totalHeat = mass * heatPerKg;
+            
+            document.getElementById('heatResult').innerHTML = 
+                `Для разложения <strong>${mass} кг</strong> CaCO₃ потребуется:<br>
+                 <strong>${totalHeat.toLocaleString()} кДж</strong> теплоты`;
+        }
+
+        // Демонстрация эффекта катализатора
+        function showCatalystEffect() {
+            const demoResult = document.getElementById('demoResult');
+            demoResult.innerHTML = `
+                <div style="background: rgba(74, 144, 226, 0.3); padding: 20px; border-radius: 10px;">
+                    <h4>⚡ Эффект катализатора</h4>
+                    <p>Без катализатора: Реакция идет медленно ⏳</p>
+                    <p>С катализатором: Реакция ускоряется в 100+ раз! 🚀</p>
+                    <div style="margin-top: 15px;">
+                        <div style="background: #ff6b6b; height: 10px; width: 30%; margin: 5px auto; border-radius: 5px;"></div>
+                        <small>Без катализатора</small>
+                    </div>
+                    <div>
+                        <div style="background: #51cf66; height: 10px; width: 80%; margin: 5px auto; border-radius: 5px;"></div>
+                        <small>С катализатором</small>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            // Можно добавить дополнительную инициализацию
+            console.log('Chemistry app loaded!');
+        });
+    </script>
+</body>
+</html>
